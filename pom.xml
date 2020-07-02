@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ptesa.xsd-xsl-validation</groupId>
 	<artifactId>xsd-xsl-validation</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>xsd-xsl-validation</name>
 	<description>validate and transformation documents.</description>
 
@@ -36,7 +36,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>com.ptesa.validation.xsdxslvalidation.XsdXslValidationApplication</mainClass>
+							<mainClass>com.ptesa.xsdxslvalidation.XsdXslValidationApplication</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
