@@ -27,11 +27,19 @@ public class PanelFiles extends JPanel implements ActionListener {
 
     private JLabel lblXSLTFile;
 
+    private JLabel lblKeyEncryption;
+
+    private JLabel lblValueCertificate;
+
     private JTextField txtXMLFile;
 
     private JTextField txtXSDFile;
 
     private JTextField txtXSLTFile;
+
+    private JTextField txtKeyEncryption;
+
+    private JTextField txtValueCertificate;
 
     private JButton btnXMLFile;
 
@@ -42,6 +50,10 @@ public class PanelFiles extends JPanel implements ActionListener {
     private JButton btnValidateXML;
 
     private JButton btnConvertXML;
+
+    private JButton btnEncrypt;
+
+    private JButton btnDecrypt;
 
     private JFileChooser jFileChooser;
 
@@ -57,12 +69,21 @@ public class PanelFiles extends JPanel implements ActionListener {
         this.lblXMLFile = new JLabel("Archivo XML: ");
         this.lblXSDFile = new JLabel("Archivo XSD: ");
         this.lblXSLTFile = new JLabel("Archivo XSLT");
+
+        this.lblKeyEncryption = new JLabel("Llave Encriptación");
+        this.lblValueCertificate = new JLabel("Valor certificado");
+
         this.txtXMLFile = new JTextField();
         this.txtXMLFile.setEditable(false);
         this.txtXSDFile = new JTextField();
         this.txtXSDFile.setEditable(false);
         this.txtXSLTFile = new JTextField();
         this.txtXSLTFile.setEditable(false);
+
+        this.txtKeyEncryption = new JTextField(20);
+
+        this.txtValueCertificate = new JTextField(20);
+
         this.btnXMLFile = new JButton("Seleccionar XML");
         this.btnXMLFile.setActionCommand("Select xml file");
         this.btnXMLFile.addActionListener(this);
@@ -78,16 +99,38 @@ public class PanelFiles extends JPanel implements ActionListener {
         this.btnConvertXML = new JButton("Convertir XML -> UBL 2.1");
         this.btnConvertXML.setActionCommand("Convert xml file");
         this.btnConvertXML.addActionListener(this);
+
+        this.btnEncrypt = new JButton("Encriptar");
+        this.btnEncrypt.setActionCommand("Encrypt");
+        this.btnEncrypt.addActionListener(this);
+
+        this.btnDecrypt = new JButton("Desencriptar");
+        this.btnDecrypt.setActionCommand("Decrypt");
+        this.btnDecrypt.addActionListener(this);
+
         JPanel pnlButtons = new JPanel();
         pnlButtons.setLayout(new FlowLayout(2));
         pnlButtons.add(this.btnXMLFile);
         pnlButtons.add(this.btnXSDFile);
         pnlButtons.add(this.btnXSLTFile);
+
         JPanel pnlExeButtons = new JPanel();
         pnlExeButtons.setBorder(new TitledBorder("Acciones"));
         pnlExeButtons.setLayout(new FlowLayout());
         pnlExeButtons.add(this.btnValidateXML);
         pnlExeButtons.add(this.btnConvertXML);
+
+        JPanel pnlEncryption = new JPanel();
+        pnlEncryption.setBorder(new TitledBorder("Certificados"));
+        pnlEncryption.setLayout(new FlowLayout());
+        pnlEncryption.add(lblKeyEncryption);
+        pnlEncryption.add(txtKeyEncryption);
+        pnlEncryption.add(lblValueCertificate);
+        pnlEncryption.add(txtValueCertificate);
+        pnlEncryption.add(btnEncrypt);
+        pnlEncryption.add(btnDecrypt);
+
+
         group.setAutoCreateContainerGaps(true);
         group.setAutoCreateGaps(true);
         group.setHorizontalGroup(group.createSequentialGroup()
@@ -106,6 +149,7 @@ public class PanelFiles extends JPanel implements ActionListener {
                 .addGroup(group.createParallelGroup().addComponent(pnlButtons)));
         add(pnlFiles, "North");
         add(pnlExeButtons, "Center");
+        add(pnlEncryption, "South");
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -150,8 +194,18 @@ public class PanelFiles extends JPanel implements ActionListener {
                 if (this.txtXSLTFile.getText().equals("") || this.txtXSLTFile.getText() == null)
                     throw new Exception("Nombre de archivo XSLT no valido.");
                 this.pnlOut.addResult(ControllerApp.convertFile(this.txtXSLTFile.getText(), this.txtXMLFile.getText()));
+            } else if (comand.equals("Encrypt")) {
+                if (this.txtKeyEncryption.getText().equals("") || this.txtValueCertificate.getText() == null)
+                    throw new Exception("Parametros no pueden estar vacio para encriptar valor.");
+                this.pnlOut.addResult(ControllerApp.encryptText(this.txtKeyEncryption.getText(), this.txtValueCertificate.getText()));
+            } else if (comand.equals("Decrypt")) {
+                if (this.txtKeyEncryption.getText().equals("") || this.txtValueCertificate.getText() == null)
+                    throw new Exception("Parametros no pueden estar vacio para descencriptar valor.");
+                this.pnlOut.addResult(ControllerApp.decryptText(this.txtKeyEncryption.getText(), this.txtValueCertificate.getText()));
             }
-        } catch (Exception e2) {
+
+        } catch (
+                Exception e2) {
             JOptionPane.showMessageDialog(null, e2.getMessage(), "Exportar archivo", 0);
         }
     }

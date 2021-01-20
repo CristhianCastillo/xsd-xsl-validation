@@ -1,6 +1,8 @@
 package com.ptesa.xsdxslvalidation.controller;
 
 import com.ptesa.xsdxslvalidation.model.XMLValidator;
+import com.ptesa.xsdxslvalidation.util.EncryptAlgorithm;
+import com.ptesa.xsdxslvalidation.util.EncryptAlgorithmV2;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXParseException;
 
@@ -94,6 +96,30 @@ public class ControllerApp {
                 txtBufferOut.append(exception.toString() + "\n");
             }
         }
+        return scroll;
+    }
+
+    public static JComponent encryptText(String key, String text) throws Exception {
+        String strResult = EncryptAlgorithmV2.encrypt(text, key);
+        JTextArea txtBufferOut = new JTextArea(10, 50);
+        txtBufferOut.setLineWrap(true);
+        txtBufferOut.setWrapStyleWord(true);
+        JScrollPane scroll = new JScrollPane(txtBufferOut);
+        scroll.setHorizontalScrollBarPolicy(30);
+        scroll.setVerticalScrollBarPolicy(22);
+        txtBufferOut.append(strResult + "\n");
+        return scroll;
+    }
+
+    public static JComponent decryptText(String key, String text) throws Exception {
+        String strResult = EncryptAlgorithmV2.decrypt(text, key);
+        JTextArea txtBufferOut = new JTextArea(10, 50);
+        txtBufferOut.setLineWrap(true);
+        txtBufferOut.setWrapStyleWord(true);
+        JScrollPane scroll = new JScrollPane(txtBufferOut);
+        scroll.setHorizontalScrollBarPolicy(30);
+        scroll.setVerticalScrollBarPolicy(22);
+        txtBufferOut.append(strResult + "\n");
         return scroll;
     }
 }

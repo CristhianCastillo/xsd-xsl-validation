@@ -18,6 +18,7 @@ public class InterfazApp extends JFrame {
         add(this.pnlFiles, "North");
         add(this.pnlOut, "Center");
         setSize(new Dimension(600, 500));
+        setMinimumSize(new Dimension(1000, 500));
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo((Component) null);
         setDefaultCloseOperation(3);
